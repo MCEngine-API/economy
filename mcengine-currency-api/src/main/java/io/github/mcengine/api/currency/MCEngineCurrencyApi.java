@@ -1,11 +1,11 @@
 package io.github.mcengine.api.currency;
 
-import java.sql.Connection;
 import java.util.UUID;
 import io.github.mcengine.api.currency.database.MCEngineCurrencyApiDBInterface;
 import io.github.mcengine.api.currency.database.mysql.MCEngineCurrencyApiMySQL;
 import io.github.mcengine.api.currency.database.sqlite.MCEngineCurrencyApiSQLite;
 import org.bukkit.plugin.Plugin;
+
 /**
  * The MCEngineCurrencyApi class provides an interface for managing player currency transactions.
  * It supports multiple database implementations (MySQL, SQLite) and enables operations
