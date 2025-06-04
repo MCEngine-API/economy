@@ -146,7 +146,7 @@ public class MCEngineCurrencyApiMySQL implements MCEngineCurrencyApiDBInterface 
      *
      * @return the current database connection
      */
-    public Connection getConnection() {
+    public Connection getDBConnection() {
         return connection;
     }
 

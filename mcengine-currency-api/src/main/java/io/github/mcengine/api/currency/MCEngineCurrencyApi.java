@@ -1,5 +1,6 @@
 package io.github.mcengine.api.currency;
 
+import java.sql.Connection;
 import java.util.UUID;
 import io.github.mcengine.api.currency.database.MCEngineCurrencyApiDBInterface;
 import io.github.mcengine.api.currency.database.mysql.MCEngineCurrencyApiMySQL;
@@ -41,6 +42,18 @@ public class MCEngineCurrencyApi {
      */
     public void initDB() {
         db.createTable();
+    }
+
+    /**
+     * Retrieves the active database connection used by the AI plugin.
+     * <p>
+     * This delegates to the underlying database implementation, such as SQLite or other supported types.
+     * Useful for executing custom SQL queries or diagnostics externally.
+     *
+     * @return The {@link Connection} instance for the configured database.
+     */
+    public Connection getDBConnection() {
+        return db.getDBConnection();
     }
 
     /**

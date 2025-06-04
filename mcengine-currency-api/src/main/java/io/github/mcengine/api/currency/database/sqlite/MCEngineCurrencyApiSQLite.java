@@ -135,7 +135,7 @@ public class MCEngineCurrencyApiSQLite implements MCEngineCurrencyApiDBInterface
      * Returns the current connection to the SQLite database.
      * @return the current {@link Connection}.
      */
-    public Connection getConnection() {
+    public Connection getDBConnection() {
         return connection;
     }
 

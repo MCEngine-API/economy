@@ -36,7 +36,7 @@ public interface MCEngineCurrencyApiDBInterface {
      *
      * @return The active {@link Connection} object.
      */
-    Connection getConnection();
+    Connection getDBConnection();
 
     /**
      * Inserts a new currency record for a player.
