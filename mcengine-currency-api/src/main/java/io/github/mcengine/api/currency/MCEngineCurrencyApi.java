@@ -21,10 +21,10 @@ public class MCEngineCurrencyApi {
      * Constructs the currency API instance and initializes the appropriate database connection.
      *
      * @param plugin  The Bukkit plugin instance.
-     * @param sqlType The type of SQL database to use ("mysql" or "sqlite").
      */
-    public MCEngineCurrencyApi(Plugin plugin, String sqlType) {
+    public MCEngineCurrencyApi(Plugin plugin) {
         this.plugin = plugin;
+        String sqlType = plugin.getConfig().getString("database.type", "sqlite").toLowerCase();
         switch (sqlType.toLowerCase()) {
             case "mysql":
                 this.db = new MCEngineCurrencyApiMySQL(plugin);
