@@ -38,13 +38,6 @@ public class MCEngineCurrencyApi {
     }
 
     /**
-     * Initializes the database by connecting and creating the necessary tables.
-     */
-    public void initDB() {
-        db.createTable();
-    }
-
-    /**
      * Retrieves the active database connection used by the AI plugin.
      * <p>
      * This delegates to the underlying database implementation, such as SQLite or other supported types.
