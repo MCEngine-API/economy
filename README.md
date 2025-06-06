@@ -1,11 +1,25 @@
-[![YouTube Playlist](https://img.shields.io/badge/Youtube-Playlist-red)](https://www.youtube.com/playlist?list=PLAIvok8LGm7dA_BvuoEsC2yTCG6AcaPFn)
+# 🚀 MCEngine Currency API
 
-# ⚠️ Warning
+This repository serves as the Currency API for MCEngine projects.
 
-This plugin is always kept up-to-date with the latest version of SpigotMC.
+Unlike typical shared libraries, each project will use `implementation` instead of `compileOnly`.  
+This ensures that each project can use the API directly without depending on this repository at runtime.
+
+📦 **Usage Tip**: Add this as an `implementation` dependency in your Gradle project to make full use of the API.
 
 # 👥 Members
 
-|Role|Username|Email|Website|
-|-|-|-|-|
-|owner|[`JetsadaWijit`](https://github.com/JetsadaWijit)|jetsadawijit@outlook.com|[`Profile`](https://jetsadawijit.github.io)|
+<table align="center">
+  <tr>
+    <td align="center" width="150">
+      <a href="https://github.com/JetsadaWijit">
+        <img src="https://imgur.com/SyqKl13.png" width="100px" style="border-radius:50%;" alt="Jetsada Wijit"/><br />
+        <sub><b>Jetsada Wijit</b></sub>
+      </a><br/>
+      <a href="https://github.com/orgs/MCEngine/teams/global">Global</a> jetsadawijit@outlook.com<br />
+      🔗 <a href="https://jetsadawijit.github.io">Website</a>
+    </td>
+  </tr>
+</table>
+
+</div>
