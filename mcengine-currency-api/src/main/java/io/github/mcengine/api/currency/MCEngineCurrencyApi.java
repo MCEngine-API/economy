@@ -14,6 +14,8 @@ import org.bukkit.plugin.Plugin;
  * and recording transactions.
  */
 public class MCEngineCurrencyApi {
+
+    private static MCEngineCurrencyApi instance;
     private Plugin plugin;
     private MCEngineCurrencyApiDBInterface db;
 
@@ -23,6 +25,7 @@ public class MCEngineCurrencyApi {
      * @param plugin  The Bukkit plugin instance.
      */
     public MCEngineCurrencyApi(Plugin plugin) {
+        instance = this;
         this.plugin = plugin;
         String sqlType = plugin.getConfig().getString("database.type", "sqlite").toLowerCase();
         switch (sqlType.toLowerCase()) {
@@ -35,6 +38,24 @@ public class MCEngineCurrencyApi {
             default:
                 plugin.getLogger().severe("Unsupported SQL type: " + sqlType);
         }
+    }
+
+    /**
+     * Gets the global API singleton instance.
+     *
+     * @return The {@link MCEngineCurrencyApi} instance.
+     */
+    public static MCEngineCurrencyApi getApi() {
+        return instance;
+    }
+
+    /**
+     * Gets the Bukkit plugin instance linked to this API.
+     *
+     * @return The plugin instance.
+     */
+    public Plugin getPlugin() {
+        return plugin;
     }
 
     /**
