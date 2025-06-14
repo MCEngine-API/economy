@@ -1,135 +1,109 @@
 plugins {
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'java'
+    id 'maven-publish'
 }
 
-// Set project version using a property, defaulting to 'unspecified' if not found
-version = project.properties[project.name + '.version'] ?: 'undefined'
+// Set project metadata
 group = 'io.github.mcengine'
+version = project.findProperty("${project.name}.version") ?: 'undefined'
 
+// Project-wide variables
 ext {
-    // User
     user_git_name = System.getenv('USER_GIT_NAME')
     user_github_token = System.getenv('USER_GITHUB_TOKEN')
-
-    // Organization
     organization_name = System.getenv('ORGANIZATION_NAME') ?: 'MCEngine'
     organization_token = System.getenv('ORGANIZATION_TOKEN')
-
-    // Repository
     repository_name = System.getenv('REPOSITORY_NAME') ?: 'currency-api'
     repository_token = System.getenv('REPOSITORY_TOKEN')
-
-    /* Project Information */
     jarName = System.getenv('PROJECT_NAME') ?: 'MCEngineCurrency'
 }
 
-allprojects {
-    group = 'io.github.mcengine'
+repositories {
+    mavenCentral()
+    mavenLocal()
 
-    apply plugin: 'java'
-    apply plugin: 'com.github.johnrengelman.shadow'
-
-    repositories {
-        mavenCentral()
-        mavenLocal()
-
-        maven {
-            url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots'
-            content {
-                includeGroup 'org.bukkit'
-                includeGroup 'org.spigotmc'
-            }
-        }
-
-        maven {
-            name = "papermc"
-            url = 'https://repo.papermc.io/repository/maven-public/'
-        }
-
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-        maven { url 'https://oss.sonatype.org/content/repositories/central' }
-
-        maven {
-            url = uri('https://maven.pkg.github.com/MCEngine/mcengine')
-            credentials {
-                username = project.user_git_name
-                password = project.user_github_token ?: project.repository_token ?: project.organization_token
-            }
+    maven {
+        url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots'
+        content {
+            includeGroup 'org.bukkit'
+            includeGroup 'org.spigotmc'
         }
     }
-}
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'com.github.johnrengelman.shadow'
-
-    version = project.properties[project.name + '.version'] ?: 'undefined'
-
-    tasks.named('jar').configure {
-        enabled = false
+    maven {
+        name = "papermc"
+        url = 'https://repo.papermc.io/repository/maven-public/'
     }
 
-    tasks.named('shadowJar').configure {
-        archiveClassifier = null
-    }
+    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
 
-    if (project.path == ":mcengine-currency-api") {
-        apply plugin: 'maven-publish'
-
-        publishing {
-            repositories {
-                maven {
-                    name = 'GitHubPackages'
-                    url = uri("https://maven.pkg.github.com/${project.organization_name}/${project.repository_name}")
-                    credentials {
-                        username = project.user_git_name
-                        password = project.user_github_token ?: project.repository_token ?: project.organization_token
-                    }
-                }
-            }
-            publications {
-                mavenJava(MavenPublication) {
-                    artifact(tasks.named('shadowJar').get())
-
-                    pom {
-                        name.set(project.jarName)
-                        description.set("The ${project.jarName} API is designed for use by AddOns, DLCs, and other plugins.")
-                        url.set("https://github.com/${project.organization_name}/${project.repository_name}")
-
-                        scm {
-                            connection.set("scm:git:git://github.com/${project.organization_name}/${project.repository_name}.git")
-                            developerConnection.set("scm:git:ssh://github.com:${project.organization_name}/${project.repository_name}.git")
-                            url.set("https://github.com/${project.organization_name}/${project.repository_name}")
-                        }
-
-                        developers {
-                            developer {
-                                id.set('jetsadawijit')
-                                name.set('Jetsada Wijit')
-                                email.set('jetsadawijit@outlook.com')
-                                url.set('https://jetsadawijit.github.io')
-                            }
-                        }
-                    }
-                }
-            }
+    maven {
+        url = uri("https://maven.pkg.github.com/${organization_name}/${repository_name}")
+        credentials {
+            username = user_git_name
+            password = user_github_token ?: repository_token ?: organization_token
         }
     }
 }
 
 dependencies {
-    implementation project(path: ":mcengine-currency-api", configuration: 'shadow')
+    compileOnly 'mysql:mysql-connector-java:8.0.33'
+    compileOnly 'org.xerial:sqlite-jdbc:3.50.1.0'
+    compileOnly 'org.spigotmc:spigot-api:1.21.5-R0.1-SNAPSHOT'
 }
 
-shadowJar {
-    version = version
-    archiveClassifier = null
-    archiveBaseName = project.jarName
-}
-
-tasks.named('jar').configure {
+tasks.named('jar') {
     enabled = false
 }
 
-build.dependsOn(shadowJar)
+tasks.named('shadowJar') {
+    archiveBaseName.set(jarName)
+    archiveClassifier.set(null)
+    archiveVersion.set(version)
+}
+
+build.dependsOn tasks.named('shadowJar')
+
+// Publishing
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact tasks.named('shadowJar').get()
+            artifactId = 'mcengine-currency-api'
+
+            pom {
+                name.set(jarName)
+                description.set("The ${jarName} API is designed for use by AddOns, DLCs, and other plugins.")
+                url.set("https://github.com/${organization_name}/${repository_name}")
+
+                scm {
+                    connection.set("scm:git:git://github.com/${organization_name}/${repository_name}.git")
+                    developerConnection.set("scm:git:ssh://github.com:${organization_name}/${repository_name}.git")
+                    url.set("https://github.com/${organization_name}/${repository_name}")
+                }
+
+                developers {
+                    developer {
+                        id.set('jetsadawijit')
+                        name.set('Jetsada Wijit')
+                        email.set('jetsadawijit@outlook.com')
+                        url.set('https://jetsadawijit.github.io')
+                    }
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'GitHubPackages'
+            url = uri("https://maven.pkg.github.com/${organization_name}/${repository_name}")
+            credentials {
+                username = user_git_name
+                password = user_github_token ?: repository_token ?: organization_token
+            }
+        }
+    }
+}
