@@ -94,7 +94,7 @@ subprojects {
 
                     pom {
                         name.set(project.jarName)
-                        description.set("The ${project.jarName} API is designed for use by addons.")
+                        description.set("The ${project.jarName} API is designed for use by AddOns, DLCs, and other plugins.")
                         url.set("https://github.com/${project.organization_name}/${project.repository_name}")
 
                         scm {
