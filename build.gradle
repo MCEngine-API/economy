@@ -12,10 +12,13 @@ version = project.findProperty("${project.name}.version") ?: 'undefined'
 ext {
     user_git_name = System.getenv('USER_GIT_NAME')
     user_github_token = System.getenv('USER_GITHUB_TOKEN')
+
     organization_name = System.getenv('ORGANIZATION_NAME') ?: 'MCEngine'
     organization_token = System.getenv('ORGANIZATION_TOKEN')
+
     repository_name = System.getenv('REPOSITORY_NAME') ?: 'currency-api'
     repository_token = System.getenv('REPOSITORY_TOKEN')
+
     jarName = System.getenv('PROJECT_NAME') ?: 'MCEngineCurrency'
 }
 
