@@ -1,4 +1,4 @@
-package io.github.mcengine.api.currency.addon;
+package io.github.mcengine.api.currency.extension.addon;
 
 import org.bukkit.plugin.Plugin;
 
