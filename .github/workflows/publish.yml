@@ -1,13 +1,11 @@
 name: Nightly Package Publisher (Thailand Time)
-
-on:
+true:
   schedule:
-    - cron: '0 17 * * *'
-  workflow_dispatch:
-
+  - cron: 0 17 * * *
+  workflow_dispatch: null
 jobs:
   publish:
-    uses: MCEngine/actions/.github/workflows/publish-gradle.yml@master
+    uses: MCEngine/actions/.github/workflows/gradle/publish.yml@master
     with:
       repo-name: ${{ github.repository }}
     secrets:
