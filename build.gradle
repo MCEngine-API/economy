@@ -18,10 +18,10 @@ ext {
     organization_token = System.getenv('ORGANIZATION_TOKEN')
 
     repository_id = System.getenv('REPOSITORY_ID')
-    repository_name = System.getenv('REPOSITORY_NAME') ?: 'currency'
+    repository_name = System.getenv('REPOSITORY_NAME') ?: 'economy'
     repository_token = System.getenv('REPOSITORY_TOKEN')
 
-    jarName = System.getenv('PROJECT_NAME') ?: 'MCEngineCurrency'
+    jarName = System.getenv('PROJECT_NAME') ?: 'MCEngineEconomy'
 }
 
 repositories {
@@ -76,11 +76,11 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             artifact tasks.named('shadowJar').get()
-            artifactId = 'currency-api'
+            artifactId = "${repository_name}-api"
 
             pom {
                 name.set(jarName)
-                description.set("The ${jarName} API is designed for use by AddOns, DLCs, and other plugins.")
+                description.set("The ${jarName} API is designed for use by plugins and extensions.")
                 url.set("https://github.com/${organization_name}/${repository_name}")
 
                 scm {
